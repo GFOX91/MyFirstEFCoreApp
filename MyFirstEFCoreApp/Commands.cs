@@ -9,7 +9,7 @@ namespace MyFirstEFCoreApp
             using (var db = new AppDbContext())
             {
                 foreach (var book in db.Books.AsNoTracking()
-                    .Include(book => book.Author))
+                    .Include(a => a.Author))
 
                 {
                     var webUrl = book.Author.WebUrl == null ? "-no web URL given" : book.Author.WebUrl;
@@ -18,6 +18,25 @@ namespace MyFirstEFCoreApp
                     Console.WriteLine($"Published on {book.PublishedOn:dd-MMM-yyyy}. {webUrl}");
                 }
             }
+        }
+
+        public static void ChangeWebUrl()
+        {
+            Console.WriteLine("New Quantum Networking WebUrl > ");
+            var newWebUrl = Console.ReadLine();
+
+            using (var db= new AppDbContext())
+            {
+                var book = db.Books
+                    .Include(a => a.Author)
+                    .Single(b => b.Title == "Qauntium Networking");
+
+                book.Author.WebUrl = newWebUrl;
+                db.SaveChanges();
+                Console.WriteLine("... SavedChanges called");
+            }
+
+            ListAll();
         }
     }
 }

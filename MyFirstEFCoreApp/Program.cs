@@ -18,6 +18,9 @@ namespace MyFirstEfCoreApp
                     case "l":
                         Commands.ListAll();
                         break;
+                    case "u":
+                        Commands.ChangeWebUrl();
+                        break;
                     default:
                         Console.WriteLine("Unknown command.");
                         break;
